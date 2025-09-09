@@ -7,20 +7,29 @@ import { subscriptionCron } from "./src/middleware/cronjobService.js";
 import dotenv from "dotenv";
 dotenv.config();
 const app = express();
+
+const connectDB = async () => {
+    try {
+        await mongoose.connect(process.env.MONGO_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+        console.log("✅ MongoDB Connected");
+    } catch (err) {
+        console.error("❌ MongoDB connection error:", err);
+        process.exit(1);
+    }
+};
 app.use(bodyParser.json());
 
 app.use(cors());
 
-// MongoDB Connection
-mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log("MongoDB connected"))
-    .catch(err => console.log(err));
-
+connectDB();
 // Routes
 app.use("/api", subscriptionRoutes);
 // subscriptionCron();
 
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
     res.send("Subscription Payment Microservice is running");
 });
 
