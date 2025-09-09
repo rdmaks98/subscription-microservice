@@ -20,4 +20,8 @@ mongoose.connect(process.env.MONGO_URI)
 // Routes
 app.use("/api", subscriptionRoutes);
 
+app.get("/", (req, res) => {
+    res.send("Subscription Payment Microservice is running");
+});
+
 app.listen(process.env.PORT, () => console.log(`Server running on ${process.env.PORT}`));
