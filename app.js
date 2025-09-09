@@ -9,7 +9,6 @@ dotenv.config();
 const app = express();
 app.use(bodyParser.json());
 
-subscriptionCron();
 app.use(cors());
 
 // MongoDB Connection
@@ -19,6 +18,7 @@ mongoose.connect(process.env.MONGO_URI)
 
 // Routes
 app.use("/api", subscriptionRoutes);
+// subscriptionCron();
 
 app.get("/", (req, res) => {
     res.send("Subscription Payment Microservice is running");
